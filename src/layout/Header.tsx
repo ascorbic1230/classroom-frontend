@@ -53,15 +53,15 @@ const UserAvatar = ({ userInfo }: { userInfo: UserInfo }) => (
   <Avatar src={`https://avatars.dicebear.com/api/identicon/${userInfo.email}.svg`} size="sm" />
 );
 
-const NavLinks = () => {
-  const { classes } = useStyles();
+// const NavLinks = () => {
+//   const { classes } = useStyles();
 
-  return (
-    <Link to="/groups" className={classes.link}>
-      Groups
-    </Link>
-  );
-};
+//   return (
+//     <Link to="/groups" className={classes.link}>
+//       Groups
+//     </Link>
+//   );
+// };
 
 const RightButtons = () => {
   const { userInfo } = useUserInfo();
@@ -95,9 +95,9 @@ export default function HeaderMegaMenu() {
             <Image src={colorScheme === 'light' ? BlackLogo : WhiteLogo} height={30} width="auto" />
           </Link>
 
-          <Group sx={{ height: '100%' }} spacing={0} className={classes.hiddenMobile}>
+          {/* <Group sx={{ height: '100%' }} spacing={0} className={classes.hiddenMobile}>
             <NavLinks />
-          </Group>
+          </Group> */}
 
           <Group className={classes.hiddenMobile}>
             <RightButtons />
@@ -118,7 +118,7 @@ export default function HeaderMegaMenu() {
       >
         <ScrollArea sx={{ height: 'calc(100vh - 60px)' }} mx="-md">
           <Divider my="sm" color={theme.colorScheme === 'dark' ? 'dark.5' : 'gray.1'} />
-          <NavLinks />
+          {/* <NavLinks /> */}
           <Divider my="sm" color={theme.colorScheme === 'dark' ? 'dark.5' : 'gray.1'} />
           <Group position="center" grow pb="xl" px="md">
             <RightButtons />
