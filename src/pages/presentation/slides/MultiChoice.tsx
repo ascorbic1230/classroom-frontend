@@ -16,7 +16,7 @@ export default function MultiChoiceDisplaySlide({ title, options }: MultiChoiceS
             y: {
               beginAtZero: true,
               ticks: {
-                precision: 0,
+                stepSize: 1,
                 font: { size: 15 },
                 color: '#4F4F4F',
               },

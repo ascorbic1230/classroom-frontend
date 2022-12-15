@@ -98,7 +98,7 @@ export default function HostPresentation({ presentation }: HostPresentationProps
         </Group>
         {
           displaySlideData === undefined ? (
-            <div>NoSide</div>
+            <div>NoSlide</div>
           ) : (
             <MultiChoiceDisplaySlide {...displaySlideData} />
           )

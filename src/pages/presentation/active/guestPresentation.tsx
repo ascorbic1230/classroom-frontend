@@ -45,7 +45,7 @@ function ShowPage({ roomId }: ShowPageProps) {
     setVoteValue(option);
     socket.emit(ClientToServerEventType.memberVote, {
       slideId: multiChoiceSlide?._id || '',
-      optionIndex: option.index === undefined ? -1 : option.index,
+      optionIndex: option.index || -1,
     });
   };
 
