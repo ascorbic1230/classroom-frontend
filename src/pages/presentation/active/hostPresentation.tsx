@@ -100,7 +100,18 @@ export default function HostPresentation({ presentation }: HostPresentationProps
           displaySlideData === undefined ? (
             <div>NoSlide</div>
           ) : (
-            <MultiChoiceDisplaySlide {...displaySlideData} />
+            // eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events
+            <div
+              onClick={() => {
+                const elem = document.documentElement;
+
+                if (elem.requestFullscreen) {
+                  elem.requestFullscreen();
+                }
+              }}
+            >
+              <MultiChoiceDisplaySlide {...displaySlideData} />
+            </div>
           )
         }
       </Stack>

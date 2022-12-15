@@ -10,7 +10,6 @@ export default function MultiChoiceDisplaySlide({ title, options }: MultiChoiceS
     <div>
       <Chart
         type="bar"
-        style={{ maxHeight: '400px' }}
         options={{
           scales: {
             y: {
