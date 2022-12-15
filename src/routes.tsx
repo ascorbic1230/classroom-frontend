@@ -84,7 +84,7 @@ export const AUTHORIZED_ROUTES: Props[] = [
     element: <ActivePresentation />,
   },
   {
-    path: '/presentation/join/',
+    path: '/presentation/join',
     name: 'Join Present',
     element: <GuestPresentation />,
   },

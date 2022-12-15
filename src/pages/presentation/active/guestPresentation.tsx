@@ -1,25 +1,21 @@
 import {
   Button, Group, SimpleGrid, TextInput, Title, Text,
 } from '@mantine/core';
-import React, {
-  useEffect, useMemo, useState,
+import {
+  useContext,
+  useEffect, useState,
 } from 'react';
 
-import { io as socketIO, Socket } from 'socket.io-client';
-
-import config from '../../../../config';
+import { useSearchParams } from 'react-router-dom';
 
 import { PresentationWithUserCreated, Option } from '@/api/presentation';
 
+import { SocketContext } from '@/socket';
 import {
-  ClientToServerEvents,
   ClientToServerEventType,
-  ServerToClientEvents,
   ServerToClientEventType,
 } from '@/socket/types';
 import { SlideType } from '@/utils/constants';
-
-import getJwtToken from '@/utils/getJwtToken';
 
 export interface ShowPageProps {
   roomId: string;
@@ -37,18 +33,13 @@ function InputCodePage({ setRoomId }: { setRoomId: (_: string) => void }) {
 }
 
 function ShowPage({ roomId }: ShowPageProps) {
-  const { jwtToken } = getJwtToken();
-
   const [presentation, setPresentation] = useState<PresentationWithUserCreated>();
   const [voteValue, setVoteValue] = useState<Option>();
 
   const multiChoiceSlide = (presentation?.slides || []).find((s) => s.slideType === SlideType.MultipleChoice);
   const options = multiChoiceSlide?.options || [];
 
-  const socket: Socket<ServerToClientEvents, ClientToServerEvents> = useMemo(
-    () => socketIO(config.backendUrl, { extraHeaders: { Authorization: `Bearer ${jwtToken}` } }),
-    [jwtToken],
-  );
+  const socket = useContext(SocketContext);
 
   const sendVote = (option: Option) => {
     setVoteValue(option);
@@ -58,19 +49,12 @@ function ShowPage({ roomId }: ShowPageProps) {
     });
   };
 
+  socket.on(ServerToClientEventType.waitJoinRoom, (data) => {
+    setPresentation(data.data);
+  });
+
   useEffect(() => {
-    socket.on('connect', () => {
-      socket.on(ServerToClientEventType.waitJoinRoom, (data) => {
-        setPresentation(data.data);
-      });
-
-      socket.emit(ClientToServerEventType.joinRoom, { roomId });
-    });
-
-    return () => {
-      socket.emit(ClientToServerEventType.leaveRoom, { roomId });
-      socket.disconnect();
-    };
+    socket.emit(ClientToServerEventType.joinRoom, { roomId });
   }, [roomId, socket]);
 
   return (
@@ -118,6 +102,14 @@ function ShowPage({ roomId }: ShowPageProps) {
 
 export default function GuestPresentation() {
   const [roomId, setRoomId] = useState('');
+  const [searchParams] = useSearchParams();
+  const id = searchParams.get('id');
+
+  useEffect(() => {
+    if (id) {
+      setRoomId(id);
+    }
+  }, [id]);
 
   return (
     roomId ? (
