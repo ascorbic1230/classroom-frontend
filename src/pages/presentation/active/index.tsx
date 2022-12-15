@@ -67,7 +67,7 @@ export default function ActivePresentation() {
 
   return (
     <Container fluid sx={{ height: '100%' }}>
-      <Skeleton visible={user === undefined}>
+      <Skeleton visible={!user}>
         {
           isHost ? (
             <HostPresentation presentation={presentation as PresentationWithUserCreated} />

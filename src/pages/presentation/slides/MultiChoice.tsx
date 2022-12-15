@@ -1,5 +1,4 @@
 import randomColor from 'randomcolor';
-import React from 'react';
 
 import Chart from '@/pages/common/chart';
 import { MultiChoiceSlide } from '@/pages/presentation/types';
@@ -11,6 +10,7 @@ export default function MultiChoiceDisplaySlide({ title, options }: MultiChoiceS
     <div>
       <Chart
         type="bar"
+        style={{ maxHeight: '400px' }}
         options={{
           scales: {
             y: {
@@ -40,7 +40,7 @@ export default function MultiChoiceDisplaySlide({ title, options }: MultiChoiceS
         data={{
           labels: options.map(({ value }) => value),
           datasets: [{
-            data: options.map(({ quantity }) => quantity || 0),
+            data: options.map(({ quantity }) => Number(quantity) || 0),
             backgroundColor,
           }],
         }}
